@@ -18,7 +18,6 @@ char* locate_str(int len){
 	return new char[len];
 }
 void init_str(char * str, int len){
-
 	cout << "Enter the string :" << endl;
 	cin.getline(str, len);
 }
