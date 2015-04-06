@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "head.h"
 #include <iostream>
+#include <conio.h>
 using namespace std;
 void  _delete_chars(char * str){
 	int i = 0, j = 0;
@@ -35,4 +36,43 @@ void another_trans(char * str){
 		p = strtok(0, " ");
 	}
 	cout << endl;
+}
+void check(){
+	int *a;
+	while (false){
+		a = new (std::nothrow) int[999];
+		if (a == 0){
+			cout << "out of memory";
+			break;
+		}
+	}
+}
+int menu(char*str){
+	while (true) {
+		char k;
+		cout << "0 - Узнать условие " << endl
+			<< "1 - Получить решение" << endl
+			<< "2 - Выйти" << endl;
+		k = _getch();
+		system("cls");
+		switch (k)
+		{
+		case '0': {
+			cout << "Преобразовать каждое слово чётной длины в строке, удалив в нём стоящие рядом одинаковые символы, оставив по одному." << endl;
+			break;
+		}
+		case '1':{
+			init_str(str, len);
+			another_trans(str);
+			delete_str(str);
+			break;
+		}
+		case '2': {
+			return 0;
+		}
+		default:
+			break;
+		}
+	}
+
 }
