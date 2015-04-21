@@ -1,24 +1,6 @@
 #include <iostream>
 #include <conio.h>
 using namespace std;
-//void SimplifyNumeral(int in_pt, int nmr, int dnr) // 5 144/36
-//{
-//	cout << in_pt << " " << nmr << "/" << dnr << " is equals ";
-//	while (nmr > dnr)
-//	{
-//		if (nmr % dnr == 0)
-//		{
-//			nmr /= dnr;
-//			in_pt += nmr;
-//			cout << in_pt << endl;
-//			break;
-//		}
-//	}
-//	/*while (nmr < dnr)
-//	{
-//
-//	}*/
-//}
 struct mixed_numeral
 {	
 	int integral_part;
@@ -27,6 +9,8 @@ struct mixed_numeral
 	mixed_numeral() : integral_part(0), numerator(0), denominator(0)
 	{}
 	mixed_numeral(int i_pa, int nm, int dm) : integral_part(i_pa), numerator(nm), denominator(dm)
+	{}
+	mixed_numeral(int nm1, int dm1) : numerator(nm1), denominator(dm1)
 	{}
 	void getMnum()
 	{
@@ -37,6 +21,76 @@ struct mixed_numeral
 	void showMnum()
 	{
 		cout << integral_part << " " << numerator << "/" << denominator << endl;
+	}
+	void showMnum_md()
+	{
+		cout << numerator << "/" << denominator << endl;
+	}
+	void transformNumerals()
+	{
+		cout << numerator << "/" << denominator << " is equals ";
+		int in_pt = ((numerator / denominator)*denominator) / denominator;
+		numerator -= (numerator / denominator)*denominator;
+		cout << in_pt << " " << numerator << "/" << denominator << endl;
+	}
+	void SimplifyNumeral()
+	{
+		cout << integral_part << " " << numerator << "/" << denominator << " is equals ";
+		if (numerator > denominator)
+		{
+			while (numerator > denominator)
+			{
+				if (denominator == 0)
+				{
+					cout << "INFINITY" << endl;
+					break;
+				}
+				else if (numerator % denominator == 0)
+				{
+					numerator /= denominator;
+					integral_part += numerator;
+					cout << integral_part << endl;
+					goto finish;
+				}
+				else
+				{
+					integral_part += numerator / denominator;
+					numerator -= (numerator / denominator)*denominator;
+					cout << integral_part << " " << numerator << "/" << denominator << endl;
+					goto finish;
+				}
+			}
+		}
+		if (numerator == denominator)
+		{
+			if (numerator == 0 && denominator == 0)
+			{
+				cout << "undefinded" << endl;
+				goto finish;
+			}
+			integral_part++;
+			cout << integral_part << endl;
+		}
+		while (numerator < denominator)
+		{
+			if (numerator == 0)
+			{
+				cout << integral_part << endl;
+				break;
+			}
+			if (denominator % numerator == 0)
+			{
+				denominator /= numerator;
+				numerator /= numerator;
+				cout << integral_part << " " << numerator << "/" << denominator << endl;
+				break;
+			}
+			cout << integral_part << " " << numerator << "/" << denominator << endl;
+			break;
+		}
+
+	finish:
+		;
 	}
 	mixed_numeral operator+(mixed_numeral) const;
 	mixed_numeral operator-(mixed_numeral) const;
@@ -59,21 +113,21 @@ mixed_numeral mixed_numeral::operator-(mixed_numeral num2) const
 }
 mixed_numeral mixed_numeral::operator*(mixed_numeral num2) const
 {
-	int i_p = 0;
 	int n = (denominator*integral_part + numerator)*(num2.denominator*num2.integral_part + num2.numerator);
 	int d = denominator + num2.denominator;
-	return mixed_numeral(i_p,n, d);
+	return mixed_numeral(n, d);
 }
 mixed_numeral mixed_numeral::operator/(mixed_numeral num2) const
 {
 	int i_p = 0;
 	int n = (integral_part*denominator + numerator)*num2.denominator;
 	int d = denominator*(num2.integral_part*num2.denominator + num2.numerator);
-	return mixed_numeral(i_p, n, d);
+	return mixed_numeral(n, d);
 }
 int main()
 {
-	mixed_numeral num1, num2, num_sum, num_diff, num_mult,num_div;
+	//transformNumerals(1789, 8);
+	mixed_numeral num1, num2, num_sum, num_diff, num_mult, num_div;
 	while (true)
 	{
 		char k;
@@ -93,55 +147,54 @@ int main()
 		}
 		case '1':
 		{
-			
 			cout << "Enter the first mixed numeral : " << endl;
 			num1.getMnum();
-			num1.showMnum();
+			num1.SimplifyNumeral();
 			cout << "Enter the second mixed numeral : " << endl;
 			num2.getMnum();
-			num2.showMnum();
+			num2.SimplifyNumeral();
 			num_sum = num1 + num2;
 			cout << "The result mixed numeral is ";
-			num_sum.showMnum();
+			num_sum.SimplifyNumeral();
 			break;
 		}
 		case '2':
 		{
 			cout << "Enter the first mixed numeral : " << endl;
 			num1.getMnum();
-			num1.showMnum();
+			num1.SimplifyNumeral();
 			cout << "Enter the second mixed numeral : " << endl;
 			num2.getMnum();
-			num2.showMnum();
+			num2.SimplifyNumeral();
 			num_diff = num1 - num2;
 			cout << "The result mixed numeral is ";
-			num_diff.showMnum();
+			num_diff.SimplifyNumeral();
 			break;
 		}
 		case '3':
 		{
 			cout << "Enter the first mixed numeral : " << endl;
 			num1.getMnum();
-			num1.showMnum();
+			num1.SimplifyNumeral();
 			cout << "Enter the second mixed numeral : " << endl;
 			num2.getMnum();
-			num2.showMnum();
+			num2.SimplifyNumeral();
 			num_mult = num1*num2;
 			cout << "The result mixed numeral is ";
-			num_mult.showMnum();
+			num_mult.transformNumerals();
 			break;
 		}
 		case '4':
 		{
 			cout << "Enter the first mixed numeral : " << endl;
 			num1.getMnum();
-			num1.showMnum();
+			num1.SimplifyNumeral();
 			cout << "Enter the second mixed numeral : " << endl;
 			num2.getMnum();
-			num2.showMnum();
+			num2.SimplifyNumeral();
 			num_div = num1/num2;
 			cout << "The result mixed numeral is ";
-			num_div.showMnum();
+			num_div.transformNumerals();
 			break;
 		}
 		default:
