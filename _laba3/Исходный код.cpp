@@ -1,133 +1,71 @@
 #include <iostream>
 #include <conio.h>
 using namespace std;
-struct mixed_numeral
-{	
-	int integral_part;
+struct mixed_fraction
+{
+	int integer_part;
 	int numerator;
 	int denominator;
-	mixed_numeral() : integral_part(0), numerator(0), denominator(0)
-	{}
-	mixed_numeral(int i_pa, int nm, int dm) : integral_part(i_pa), numerator(nm), denominator(dm)
-	{}
-	mixed_numeral(int nm1, int dm1) : numerator(nm1), denominator(dm1)
-	{}
-	void getMnum()
+	void get_fract()
 	{
-		cout << "Enter the integer part : "; cin >> integral_part;
-		cout << "Enter the numerator : "; cin >> numerator;
-		cout << "Enter the denominator : "; cin >> denominator;
+		cout << "Enter mixed fractions" << endl;
+		cout << "Enter integer part : "; cin >> integer_part;
+		cout << "Enter numerator : "; cin >> numerator;
+		cout << "Enter denominator : "; cin >> denominator;
 	}
-	void showMnum()
+	void show_fract()
 	{
-		cout << integral_part << " " << numerator << "/" << denominator << endl;
+		if (integer_part == 0)
+			cout << numerator << "/" << denominator << endl;
+		else
+		cout << integer_part << " " << numerator << "/" << denominator << endl;
 	}
-	void showMnum_md()
-	{
-		cout << numerator << "/" << denominator << endl;
-	}
-	void transformNumerals()
-	{
-		cout << numerator << "/" << denominator << " is equals ";
-		int in_pt = ((numerator / denominator)*denominator) / denominator;
-		numerator -= (numerator / denominator)*denominator;
-		cout << in_pt << " " << numerator << "/" << denominator << endl;
-	}
-	void SimplifyNumeral()
-	{
-		cout << integral_part << " " << numerator << "/" << denominator << " is equals ";
-		if (numerator > denominator)
-		{
-			while (numerator > denominator)
-			{
-				if (denominator == 0)
-				{
-					cout << "INFINITY" << endl;
-					break;
-				}
-				else if (numerator % denominator == 0)
-				{
-					numerator /= denominator;
-					integral_part += numerator;
-					cout << integral_part << endl;
-					goto finish;
-				}
-				else
-				{
-					integral_part += numerator / denominator;
-					numerator -= (numerator / denominator)*denominator;
-					cout << integral_part << " " << numerator << "/" << denominator << endl;
-					goto finish;
-				}
-			}
-		}
-		if (numerator == denominator)
-		{
-			if (numerator == 0 && denominator == 0)
-			{
-				cout << "undefinded" << endl;
-				goto finish;
-			}
-			integral_part++;
-			cout << integral_part << endl;
-		}
-		while (numerator < denominator)
-		{
-			if (numerator == 0)
-			{
-				cout << integral_part << endl;
-				break;
-			}
-			if (denominator % numerator == 0)
-			{
-				denominator /= numerator;
-				numerator /= numerator;
-				cout << integral_part << " " << numerator << "/" << denominator << endl;
-				break;
-			}
-			cout << integral_part << " " << numerator << "/" << denominator << endl;
-			break;
-		}
-
-	finish:
-		;
-	}
-	mixed_numeral operator+(mixed_numeral) const;
-	mixed_numeral operator-(mixed_numeral) const;
-	mixed_numeral operator*(mixed_numeral) const;
-	mixed_numeral operator/(mixed_numeral) const;
 };
-mixed_numeral mixed_numeral::operator+(mixed_numeral num2) const
+
+mixed_fraction sum(mixed_fraction fract1, mixed_fraction fract2)
 {
-	int i_p = integral_part + num2.integral_part;
-	int n = numerator*num2.denominator + num2.numerator*denominator;
-	int d = denominator*num2.denominator;
-	return mixed_numeral(i_p,n,d);
+	mixed_fraction fract3;
+	fract3.integer_part = fract1.integer_part + fract2.integer_part;
+	fract3.denominator = fract1.denominator*fract2.denominator;
+	fract3.numerator = fract1.numerator*fract2.denominator + fract2.numerator*fract1.denominator;
+	cout << "Summary of this fractions is equals ";
+	fract3.show_fract();
+	return fract3;
 }
-mixed_numeral mixed_numeral::operator-(mixed_numeral num2) const
+mixed_fraction diff(mixed_fraction fract1, mixed_fraction fract2)
 {
-	int i_p = integral_part - num2.integral_part;
-	int n = numerator*num2.denominator - num2.numerator*denominator;
-	int d = denominator*num2.denominator;
-	return mixed_numeral(i_p, n, d);
+	mixed_fraction fract3;
+	fract3.integer_part = fract1.integer_part - fract2.integer_part;
+	fract3.denominator = fract1.denominator*fract2.denominator;
+	fract3.numerator = fract1.numerator*fract2.denominator - fract2.numerator*fract1.denominator;
+	cout << "Differense between this fractions is equals ";
+	fract3.show_fract();
+	return fract3;
 }
-mixed_numeral mixed_numeral::operator*(mixed_numeral num2) const
+mixed_fraction mult(mixed_fraction fract1, mixed_fraction fract2)
 {
-	int n = (denominator*integral_part + numerator)*(num2.denominator*num2.integral_part + num2.numerator);
-	int d = denominator + num2.denominator;
-	return mixed_numeral(n, d);
+	mixed_fraction fract3;
+	fract3.integer_part = fract1.integer_part*fract2.integer_part;
+	fract3.denominator = fract1.denominator*fract2.denominator;
+	fract3.numerator = fract1.integer_part*fract2.numerator*fract1.denominator + fract2.integer_part*fract1.numerator*fract2.denominator + fract1.numerator*fract2.numerator;
+	cout << "Multiplication of this fractions is equals ";
+	fract3.show_fract();
+	return fract3;
 }
-mixed_numeral mixed_numeral::operator/(mixed_numeral num2) const
+mixed_fraction div(mixed_fraction fract1, mixed_fraction fract2)
 {
-	int i_p = 0;
-	int n = (integral_part*denominator + numerator)*num2.denominator;
-	int d = denominator*(num2.integral_part*num2.denominator + num2.numerator);
-	return mixed_numeral(n, d);
+	mixed_fraction fract3;
+	fract3.integer_part = 0;
+	fract3.denominator = fract1.denominator*(fract2.integer_part*fract2.denominator + fract2.numerator);
+	fract3.numerator = (fract1.integer_part*fract1.denominator + fract1.numerator)*fract2.denominator;
+	cout << "Division of this fractions is equals ";
+	fract3.show_fract();
+	return fract3;
 }
 int main()
 {
-	//transformNumerals(1789, 8);
-	mixed_numeral num1, num2, num_sum, num_diff, num_mult, num_div;
+	mixed_fraction a,b;
+	
 	while (true)
 	{
 		char k;
@@ -147,54 +85,38 @@ int main()
 		}
 		case '1':
 		{
-			cout << "Enter the first mixed numeral : " << endl;
-			num1.getMnum();
-			num1.SimplifyNumeral();
-			cout << "Enter the second mixed numeral : " << endl;
-			num2.getMnum();
-			num2.SimplifyNumeral();
-			num_sum = num1 + num2;
-			cout << "The result mixed numeral is ";
-			num_sum.SimplifyNumeral();
+			a.get_fract();
+			a.show_fract();
+			b.get_fract();
+			b.show_fract();
+			sum(a, b);
 			break;
 		}
 		case '2':
 		{
-			cout << "Enter the first mixed numeral : " << endl;
-			num1.getMnum();
-			num1.SimplifyNumeral();
-			cout << "Enter the second mixed numeral : " << endl;
-			num2.getMnum();
-			num2.SimplifyNumeral();
-			num_diff = num1 - num2;
-			cout << "The result mixed numeral is ";
-			num_diff.SimplifyNumeral();
+			a.get_fract();
+			a.show_fract();
+			b.get_fract();
+			b.show_fract();
+			diff(a, b);
 			break;
 		}
 		case '3':
 		{
-			cout << "Enter the first mixed numeral : " << endl;
-			num1.getMnum();
-			num1.SimplifyNumeral();
-			cout << "Enter the second mixed numeral : " << endl;
-			num2.getMnum();
-			num2.SimplifyNumeral();
-			num_mult = num1*num2;
-			cout << "The result mixed numeral is ";
-			num_mult.transformNumerals();
+			a.get_fract();
+			a.show_fract();
+			b.get_fract();
+			b.show_fract();
+			mult(a, b);
 			break;
 		}
 		case '4':
 		{
-			cout << "Enter the first mixed numeral : " << endl;
-			num1.getMnum();
-			num1.SimplifyNumeral();
-			cout << "Enter the second mixed numeral : " << endl;
-			num2.getMnum();
-			num2.SimplifyNumeral();
-			num_div = num1/num2;
-			cout << "The result mixed numeral is ";
-			num_div.transformNumerals();
+			a.get_fract();
+			a.show_fract();
+			b.get_fract();
+			b.show_fract();
+			div(a, b);
 			break;
 		}
 		default:
