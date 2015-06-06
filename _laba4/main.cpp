@@ -7,15 +7,16 @@ using namespace std;
 
 int main()
 {
+	setlocale(LC_ALL, "Rus");
 	List text;
 	ifstream in("in.txt");
-	char * div = ",!.;?";
 	while (!in.eof())
 	{
 		char * str = new char[30];
 		in >> str;
-		char * word = strtok(str, div);
-		text.add(word);
+		char * word = new char[strlen(str) + 1];
+		word = strtok(str, " ,;:.!?");
+		text.add(str);
 		delete[] str;
 	}
 	text.print(text.begin);

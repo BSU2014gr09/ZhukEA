@@ -2,12 +2,11 @@
 #include"list.h"
 #include<iostream>
 #include<cstring>
-#include<new>
 using namespace std;
 
 node * List::add(char * word)
 {
-	node * tmp = new(std::nothrow) node;
+	node * tmp = new node;
 	node * pos = begin;
 	while (pos)
 	{
