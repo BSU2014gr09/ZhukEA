@@ -1,11 +1,13 @@
 #include <iostream>
 #include <conio.h>
 using namespace std;
-struct mixed_numeral
+class mixed_numeral
 {	
+private:
 	int integral_part;
 	int numerator;
 	int denominator;
+public:
 	mixed_numeral() : integral_part(0), numerator(0), denominator(0)
 	{}
 	mixed_numeral(int i_pa, int nm, int dm) : integral_part(i_pa), numerator(nm), denominator(dm)
@@ -126,7 +128,6 @@ mixed_numeral mixed_numeral::operator/(mixed_numeral num2) const
 }
 int main()
 {
-	//transformNumerals(1789, 8);
 	mixed_numeral num1, num2, num_sum, num_diff, num_mult, num_div;
 	while (true)
 	{
